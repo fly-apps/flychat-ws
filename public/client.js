@@ -1,16 +1,16 @@
 'use strict'
 var socket = null
 
-function connect () {
-  console.log('connect called')
+function connect() {
   var serverUrl
   var scheme = 'ws'
+  var location = document.location;
 
-  if (document.location.protocol === 'https:') {
+  if (location.protocol === 'https:') {
     scheme += 's'
   }
 
-  serverUrl = scheme + '://' + document.location.hostname + ':' +document.location.port
+  serverUrl = `${scheme}://${location.hostname}:${location.port}`
 
   socket = new WebSocket(serverUrl, 'json')
 
@@ -18,15 +18,11 @@ function connect () {
     const msg = JSON.parse(event.data)
     $('#messages').append($('<li>').text(msg.name + ':' + msg.message))
     window.scrollTo(0, document.body.scrollHeight)
-    socket.addEventListener('error', error => {
-      console.log(error)
-    })
   }
-
   $('form').submit(sendMessage);
 }
 
-function sendMessage () {
+function sendMessage() {
   name = $('#n').val()
   if (name == '') {
     return
