@@ -1,37 +1,37 @@
 'use strict'
-var socket = null
+var socket = null;
 
 function connect() {
-  var serverUrl
-  var scheme = 'ws'
+  var serverUrl;
+  var scheme = 'ws';
   var location = document.location;
 
   if (location.protocol === 'https:') {
-    scheme += 's'
+    scheme += 's';
   }
 
-  serverUrl = `${scheme}://${location.hostname}:${location.port}`
+  serverUrl = `${scheme}://${location.hostname}:${location.port}`;
 
-  socket = new WebSocket(serverUrl, 'json')
+  socket = new WebSocket(serverUrl, 'json');
 
   socket.onmessage = event => {
     const msg = JSON.parse(event.data)
     $('#messages').append($('<li>').text(msg.name + ':' + msg.message))
-    window.scrollTo(0, document.body.scrollHeight)
+    window.scrollTo(0, document.body.scrollHeight);
   }
   $('form').submit(sendMessage);
 }
 
 function sendMessage() {
-  name = $('#n').val()
+  name = $('#n').val();
   if (name == '') {
-    return
+    return;
   }
-  $('#n').prop('disabled', true)
-  $('#n').css('background', 'grey')
-  $('#n').css('color', 'white')
-  const msg = { type: 'message', name: name, message: $('#m').val() }
-  socket.send(JSON.stringify(msg))
-  $('#m').val('')
-  return false
+  $('#n').prop('disabled', true);
+  $('#n').css('background', 'grey');
+  $('#n').css('color', 'white');
+  const msg = { type: 'message', name: name, message: $('#m').val() };
+  socket.send(JSON.stringify(msg));
+  $('#m').val('');
+  return false;
 }
