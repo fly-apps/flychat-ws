@@ -1,4 +1,3 @@
-
 const { createServer }  = require('http');
 const express = require('express');
 const WebSocket=require('ws');
@@ -16,4 +15,3 @@ server.on('connection', (socket) => {
     })
   });
 });
-
